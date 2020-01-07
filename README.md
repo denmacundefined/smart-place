@@ -1,6 +1,8 @@
-# JavaScript based IoT Platform for DIY ideas
+# Idea
 
-## Hardware implementation
+# Architecture
+
+# Hardware
 For creating and adding to platform your custom device you need implement it on ESP32 microcontroller. 
 
-#### next describing in process ...
+# Software
