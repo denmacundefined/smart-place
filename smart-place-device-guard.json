@@ -1,0 +1,10 @@
+{
+  "name": "guard",
+  "ip": "192.168.12.254",
+  "alert": true,
+  "interval": 60,
+  "help": "Guard: get guard | set guard [1,0,0,1,0]",
+  "get": "flat",
+  "set": "auto",
+  "wrap": ""
+}
