@@ -1,3 +1,24 @@
+# Smart Place — GitHub Pages / Jekyll
+# Official Architect theme as requested.
 remote_theme: pages-themes/architect@v0.2.0
 plugins:
-- jekyll-remote-theme # add this line to the plugins list if you already have one
+  - jekyll-remote-theme
+
+title: "Smart Place"
+description: "SMS ↔ REST-шлюз для IoT на MikroTik RouterOS і LTE"
+lang: uk
+markdown: kramdown
+highlighter: rouge
+show_downloads: false
+
+# Для репозиторію username.github.io залиште порожнім.
+# Для project Pages (username.github.io/REPO/) встановіть: baseurl: "/REPO"
+baseurl: ""
+# За потреби вкажіть: url: "https://USERNAME.github.io"
+url: ""
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - .github
