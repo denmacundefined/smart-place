@@ -1,0 +1,30 @@
+digraph SmartPlace {
+  graph [label="Smart Place | System architecture",labelloc=t,fontname="DejaVu Sans",fontsize=20,pad=0.22,ranksep=0.8,nodesep=0.34,bgcolor="transparent",splines=ortho];
+  node [shape=box,style="rounded,filled",fontname="DejaVu Sans",fontsize=11,color="#AEC9DC",fillcolor="#F3F9FD",margin="0.18,0.12"];
+  edge [fontname="DejaVu Sans",fontsize=9,color="#678AA4",arrowsize=0.7];
+  phone [label="User's phone\nSMS commands / alert messages",fillcolor="#FFF4DC",color="#E5C78B"];
+  subgraph cluster_router {
+    label="MikroTik RouterOS 7.24.6 / Chateau"; style="rounded,filled"; color="#D2E2ED"; fillcolor="#F8FBFD"; fontname="DejaVu Sans"; fontsize=12;
+    sms [label="LTE modem / SIM\nlte1 · /tool sms inbox",fillcolor="#FFF0ED",color="#DAB7B0"];
+    tick [label="smart-place-sms-tick\nevery 20 s",fillcolor="#EAF1F8"];
+    handler [label="smart-place-sms-handler\nauthorization · help/get/set · SMS send"];
+    atick [label="smart-place-alert-tick\nevery 20 s",fillcolor="#EAF1F8"];
+    cron [label="smart-place-cron\nper-device polling · alert transitions"];
+    queue [label="RAM queue\nspPendingAlerts",fillcolor="#EDF9F0",color="#B5D9BB"];
+    fs [label="Persistent flash/\ndevice JSON + trusted numbers",fillcolor="#F3F2FC",color="#CAC4DF"];
+    state [label="RAM state\nspLastCheck · spPriorAlert · spHandledSms",fillcolor="#EDF9F0",color="#B5D9BB"];
+  }
+  device [label="ESP32 · guard\n192.168.12.254\nGET/POST http://IP/",fillcolor="#E6F7F1",color="#A5D2C2"];
+  phone -> sms [dir=both,label="SMS"];
+  sms -> handler [dir=both];
+  tick -> handler [label="run"];
+  atick -> cron [label="run"];
+  handler -> device [dir=both,label="REST JSON"];
+  cron -> device [dir=both,label="GET JSON"];
+  cron -> queue [label="enqueue"];
+  queue -> handler [label="deliver"];
+  fs -> handler [style=dashed];
+  fs -> cron [style=dashed];
+  state -> handler [style=dashed];
+  state -> cron [style=dashed];
+}

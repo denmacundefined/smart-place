@@ -1,0 +1,25 @@
+@startuml
+!theme plain
+title Smart Place — logical components
+actor "SMS user" as User
+node "MikroTik RouterOS / Chateau" {
+  component "LTE modem /tool sms" as LTE
+  component "smart-place-sms-handler" as SMS
+  component "smart-place-cron" as Cron
+  component "smart-place-sms-tick" as SmsTick
+  component "smart-place-alert-tick" as AlertTick
+  database "flash/ device JSON\ntrusted-number list" as Flash
+  collections "RAM state / alert queue" as RAM
+}
+node "ESP32 guard\n192.168.12.254" as ESP
+User <--> LTE : SMS
+LTE <--> SMS : inbox / send
+SmsTick --> SMS : launch every 20s
+AlertTick --> Cron : launch every 20s
+Flash ..> SMS : configuration
+Flash ..> Cron : configuration
+SMS <--> ESP : HTTP GET / POST
+Cron --> ESP : HTTP GET
+Cron --> RAM : queue alert
+RAM --> SMS : pending alerts
+@enduml

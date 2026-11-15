@@ -1,0 +1,13 @@
+digraph alert {
+  graph [label="Alert lifecycle | Per device",labelloc=t,fontname="DejaVu Sans",fontsize=18,rankdir=LR,pad=0.24,nodesep=0.4,ranksep=0.6,bgcolor="transparent"];
+  node [shape=box,style="rounded,filled",fontname="DejaVu Sans",fontsize=11,color="#B4C9D9",fillcolor="#F4F9FD",margin="0.20,0.16"];
+  edge [fontname="DejaVu Sans",fontsize=9,color="#658BA5",arrowsize=0.65];
+  normal [label="NORMAL\nlast observed alert = false",fillcolor="#E7F7EC",color="#A5CFB0"];
+  queued [label="ALERT QUEUED\nstore report in RAM",fillcolor="#FFF4DE",color="#E0BC7A"];
+  active [label="ACTIVE\nalert = true\nno new transition SMS",fillcolor="#FFEBEA",color="#E0A9A8"];
+  normal -> queued [label="GET reports true"];
+  queued -> active [label="SMS Handler sends\n(no guaranteed delivery)"];
+  active -> active [label="GET still true"];
+  active -> normal [label="GET reports false"];
+  queued -> normal [label="GET reports false\nbefore SMS send",style=dashed];
+}
